@@ -3,12 +3,11 @@ import kotlin.random.Random
 class FieldsForGame(mines: Int) {
     private val fieldWithMines = emptyFieldInitializer()
     private val fieldForPlayer = emptyFieldInitializer()
-     var remainingMines = mines
+    var remainingMines = mines
 
     init {
         fieldWithMines.setMines(mines)
     }
-
 
 
     private fun Array<Array<Char>>.setMines(minesAmount: Int) {
@@ -53,7 +52,7 @@ class FieldsForGame(mines: Int) {
             while (i <= coordinates.y + 1) {
                 j = coordinates.x - 1
                 while (j <= coordinates.x + 1) {
-                    if (Coordinates(i, j).isValid() && (fieldForPlayer[i][j] == '.'  || fieldForPlayer[i][j] == '*')) {
+                    if (Coordinates(i, j).isValid() && (fieldForPlayer[i][j] == '.' || fieldForPlayer[i][j] == '*')) {
                         arrayOfEmptyCoordinates.add(Coordinates(j, i))
                     }
                     j++
@@ -64,12 +63,14 @@ class FieldsForGame(mines: Int) {
         return arrayOfEmptyCoordinates
     }
 
-     fun setMarkInCell(coordinate: Coordinates) {
+    fun setMarkInCell(coordinate: Coordinates) {
         coordinate.apply {
             if ((fieldWithMines[y][x] == 'X' && fieldForPlayer[y][x] == '.')
-                || (fieldWithMines[y][x] == '.' && fieldForPlayer[y][x] == '*')) remainingMines--
+                || (fieldWithMines[y][x] == '.' && fieldForPlayer[y][x] == '*')
+            ) remainingMines--
             if ((fieldWithMines[y][x] == '.' && fieldForPlayer[y][x] == '.')
-                || (fieldWithMines[y][x] == 'X' && fieldForPlayer[y][x] == '*')) remainingMines++
+                || (fieldWithMines[y][x] == 'X' && fieldForPlayer[y][x] == '*')
+            ) remainingMines++
         }
         fieldForPlayer[coordinate.y][coordinate.x] = when (fieldForPlayer[coordinate.y][coordinate.x]) {
             '.' -> '*'
@@ -85,10 +86,10 @@ class FieldsForGame(mines: Int) {
         }
     }
 
-     fun openCell(coordinates: Coordinates) {
+    fun openCell(coordinates: Coordinates) {
         when (fieldWithMines[coordinates.y][coordinates.x]) {
             '.' -> {
-                if(fieldForPlayer[coordinates.y][coordinates.x] == '*') remainingMines -= 1
+                if (fieldForPlayer[coordinates.y][coordinates.x] == '*') remainingMines -= 1
                 fieldForPlayer[coordinates.y][coordinates.x] = '/'
                 for (i in getEmptyCoordinatesAround(coordinates)) {
                     openCell(i)
@@ -100,7 +101,8 @@ class FieldsForGame(mines: Int) {
 
         }
     }
-     fun setBombsOnPlayersField() {
+
+    fun setBombsOnPlayersField() {
         for (i in fieldWithMines.indices) {
             for (j in fieldWithMines[i].indices) {
                 if (fieldWithMines[i][j] == 'X') fieldForPlayer[i][j] = 'X'

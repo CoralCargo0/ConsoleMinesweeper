@@ -47,13 +47,13 @@ class Game(_mines: Int) {
     }
 
     private fun isExploring(): Boolean {
-        return scanner.nextLine() == " free"
+        return scanner.next() == "free"
     }
 
     private fun firstAttempt() {
         var coordinates: Coordinates
         var isExploring: Boolean
-        var repeater: Boolean = false
+        var repeater = false
         do {
             coordinates = invitationAndSetCoordinates()
             isExploring = isExploring()
@@ -72,13 +72,13 @@ class Game(_mines: Int) {
                         playingFields = FieldsForGame(mines)
                         repeater = true
                     } else repeater = false
-                }while (repeater)
+                } while (repeater)
 
             } else {
                 playingFields.setMarkInCell(coordinates)
             }
             playingFields.printField()
-        }while(false)
+        } while (false)
 
     }
 
